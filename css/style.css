@@ -1,0 +1,291 @@
+/* RESET BÁSICO */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ESTRUCTURA GENERAL */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: #1f2937;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  height: 70px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 50px;
+  padding: 0.5rem 1rem;
+  background-color: #f3f4f6;
+  border-bottom: 1px solid #ccc;
+}
+
+.layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  background-color: #fff;
+}
+
+/* ACCIONES */
+.actions-right {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  background-color: #1f2937;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.action-btn:hover {
+  background-color: #374151;
+}
+
+/* SIDEBARS */
+.sidebar {
+  width: 200px;
+  background-color: #e5e7eb;
+  padding: 1rem;
+}
+
+.left {
+  border-right: 1px solid #ccc;
+}
+
+.grupo-campos {
+  margin-top: 1rem;
+}
+
+.toggle-btn {
+  background-color: #d1d5db;
+  border: none;
+  padding: 0.5rem;
+  width: 100%;
+  text-align: left;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.checkbox-list {
+  display: none;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.grupo-campos.open .checkbox-list {
+  display: flex;
+}
+
+/* columna intermedia */
+.right-table-container {
+  width: 250px;
+  min-width: 20px;
+  transition: width 0.3s ease;
+  position: absolute;
+  top: 120px; /* debajo del header (70px) + topbar (50px) */
+  bottom: 0;
+  height: auto;
+  left: 200px; /* ajusta según ancho real de sidebar izquierda */
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  border-right: 1px solid #ccc;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.right-table-container.collapsed {
+  width: 10px;
+  padding: 0;
+}
+
+.right-table-content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  transition: opacity 0.3s ease;
+}
+
+.right-table-container.collapsed .right-table-content {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Botón fijo al borde derecho del panel */
+.toggle-right-table-btn {
+  position: absolute;
+  right: -10px;
+  top: 10px;
+  width: 40px;
+  height: 40px;
+  background-color: #1f2937;
+  color: white;
+  border: none;
+  border-radius: 50%; /* círculo perfecto */
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* sombra sutil */
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.toggle-right-table-btn:hover {
+  background-color: #374151;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); /* sombra más fuerte al hacer hover */
+}
+
+
+
+/*CONTENIDO PRINCIPAL TABLA */
+
+
+.order-btn:hover {
+  background-color: #374151;
+}
+.content {
+  flex: 1;
+  padding: 2rem;
+  overflow: auto; /* Permite scroll en ambas direcciones */
+  background-color: #fff;
+}
+
+.tabla-contenedor {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden; /* o auto si también quieres vertical */
+  margin-top: 1rem;
+}
+
+#tablaObjetos {
+  min-width: max-content; /* ← importante: permite que la tabla crezca con su contenido */
+  border-collapse: collapse;
+  background-color: white;
+}
+
+#tablaObjetos th,
+#tablaObjetos td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+#tablaObjetos th {
+  background-color: #f3f4f6;
+  font-weight: bold;
+}
+
+.th-controls-float {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: flex;
+  gap: 0.2rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+th:hover .th-controls-float {
+  opacity: 1;
+}
+
+
+.th-controls-float button {
+  background-color: #1f2937;
+  color: white;
+  border: none;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.th-controls-float button:hover {
+  background-color: #374151;
+}
+
+
+
+/* BLOQUE DINÁMICO */
+.bloque-dinamico {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+/* LOGIN */
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f3f4f6;
+}
+
+.login-container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+  margin-bottom: 1rem;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container label {
+  margin-top: 1rem;
+}
+
+.login-container input {
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+.login-container button {
+  margin-top: 1.5rem;
+  padding: 0.7rem;
+  background-color: #1f2937;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
