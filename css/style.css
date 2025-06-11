@@ -75,6 +75,15 @@ header {
   padding: 1rem;
 }
 
+.sidebar.left {
+  border-right: 1px solid #ccc;
+  overflow-y: auto;
+  max-height: 100%;
+  /* Ocultar scrollbar pero mantener funcionalidad */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
 .left {
   border-right: 1px solid #ccc;
 }
@@ -100,6 +109,7 @@ header {
   gap: 0.4rem;
   margin-top: 0.5rem;
   font-size: 0.95rem;
+  max-height: none; /* ← Permitir que crezca libremente */
 }
 
 .grupo-campos.open .checkbox-list {
@@ -127,8 +137,12 @@ header {
 
 
 .right-table-container.collapsed {
-  width: 10px;
+  width: 0;
   padding: 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  backdrop-filter: none;
 }
 
 .right-table-content {
@@ -141,28 +155,29 @@ header {
 .right-table-container.collapsed .right-table-content {
   opacity: 0;
   pointer-events: none;
+  padding: 0;
 }
 
 /* Botón fijo al borde derecho del panel */
 .toggle-right-table-btn {
   position: absolute;
-  right: -10px;
+  right: -20px;
   top: 10px;
   width: 40px;
   height: 40px;
   background-color: #1f2937;
   color: white;
   border: none;
-  border-radius: 50%; /* círculo perfecto */
+  border-radius: 50%;
   cursor: pointer;
   z-index: 1000;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* sombra sutil */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .toggle-right-table-btn:hover {
   background-color: #374151;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); /* sombra más fuerte al hacer hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 
@@ -288,4 +303,26 @@ th:hover .th-controls-float {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+/* DRAG AND DROP PARA COLUMNAS */
+#tablaObjetos th {
+  background-color: #f3f4f6;
+  font-weight: bold;
+  cursor: grab;
+  user-select: none;
+}
+
+#tablaObjetos th:active {
+  cursor: grabbing;
+}
+
+#tablaObjetos th.dragging {
+  opacity: 0.5;
+  background-color: #e5e7eb;
+}
+
+#tablaObjetos th.drag-over {
+  background-color: #dbeafe;
+  border-left: 3px solid #3b82f6;
 }
