@@ -105,6 +105,7 @@ function configurarCheckboxesYTabla() {
             th.classList.add(`col-${id}`);
             th.setAttribute("data-col", id);
             th.style.position = "relative";
+            th.draggable = true; // ← Hacer la columna arrastrable
 
             th.textContent = nombreCampo;
 
@@ -123,6 +124,14 @@ function configurarCheckboxesYTabla() {
             controls.appendChild(btnRight);
             th.appendChild(controls);
             cabeceraTabla.appendChild(th);
+
+            // ← EVENTOS DRAG AND DROP
+            th.addEventListener('dragstart', handleDragStart);
+            th.addEventListener('dragover', handleDragOver);
+            th.addEventListener('drop', handleDrop);
+            th.addEventListener('dragend', handleDragEnd);
+            th.addEventListener('dragenter', handleDragEnter);
+            th.addEventListener('dragleave', handleDragLeave);
 
             cuerpoTabla.querySelectorAll("tr").forEach((fila, index) => {
               const td = document.createElement("td");
@@ -159,6 +168,78 @@ function configurarCheckboxesYTabla() {
 
 
 // ───────────────────────────────────────────────
+// 🔄 DRAG AND DROP PARA COLUMNAS
+// ───────────────────────────────────────────────
+let draggedColumn = null;
+
+function handleDragStart(e) {
+  draggedColumn = this;
+  this.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/html', this.outerHTML);
+}
+
+function handleDragOver(e) {
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
+  e.dataTransfer.dropEffect = 'move';
+  return false;
+}
+
+function handleDragEnter(e) {
+  if (this !== draggedColumn) {
+    this.classList.add('drag-over');
+  }
+}
+
+function handleDragLeave(e) {
+  this.classList.remove('drag-over');
+}
+
+function handleDrop(e) {
+  if (e.stopPropagation) {
+    e.stopPropagation();
+  }
+
+  if (draggedColumn !== this) {
+    const draggedId = draggedColumn.dataset.col;
+    const targetId = this.dataset.col;
+    
+    // Encontrar las posiciones
+    const tableHeader = document.querySelector("#tablaObjetos thead tr");
+    const headers = [...tableHeader.children];
+    const draggedIndex = headers.findIndex(th => th.dataset.col === draggedId);
+    const targetIndex = headers.findIndex(th => th.dataset.col === targetId);
+    
+    if (draggedIndex !== -1 && targetIndex !== -1) {
+      // Mover la columna
+      const direction = targetIndex > draggedIndex ? 1 : -1;
+      const steps = Math.abs(targetIndex - draggedIndex);
+      
+      for (let i = 0; i < steps; i++) {
+        moveColumn(draggedId, direction);
+      }
+    }
+  }
+
+  this.classList.remove('drag-over');
+  return false;
+}
+
+function handleDragEnd(e) {
+  this.classList.remove('dragging');
+  
+  // Limpiar todas las clases de drag-over
+  document.querySelectorAll('#tablaObjetos th').forEach(th => {
+    th.classList.remove('drag-over');
+  });
+  
+  draggedColumn = null;
+}
+
+
+// ───────────────────────────────────────────────
 // 🔵 TOGGLE COLUMNA INTERMEDIA
 // ───────────────────────────────────────────────
 function configurarToggleColumnaIntermedia() {
@@ -166,9 +247,27 @@ function configurarToggleColumnaIntermedia() {
   const container = document.getElementById("rightTableContainer");
 
   if (toggleBtn && container) {
+    // Función para actualizar la posición del botón
+    function updateButtonPosition() {
+      if (container.classList.contains("collapsed")) {
+        // Panel cerrado: botón al lado del sidebar izquierdo
+        toggleBtn.style.right = "-20px";
+        toggleBtn.style.left = "-30px"; // Posición fija desde el borde izquierdo
+        toggleBtn.textContent = "»";
+      } else {
+        // Panel abierto: botón al borde derecho del panel
+        toggleBtn.style.left = "";
+        toggleBtn.style.right = "-20px";
+        toggleBtn.textContent = "«";
+      }
+    }
+
+    // Inicializar posición del botón
+    updateButtonPosition();
+
     toggleBtn.addEventListener("click", () => {
       container.classList.toggle("collapsed");
-      toggleBtn.textContent = container.classList.contains("collapsed") ? "»" : "«";
+      updateButtonPosition();
     });
   }
 }
