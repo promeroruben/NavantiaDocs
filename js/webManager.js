@@ -279,10 +279,25 @@ function configurarLogout() {
   const btnLogout = document.getElementById("btnLogout");
   if (btnLogout) {
     btnLogout.addEventListener("click", () => {
+      localStorage.removeItem("loggedUser");
       window.location.href = "login.html";
     });
   }
 }
+
+function checkLoggedUser() {
+  const username = localStorage.getItem("loggedUser");
+
+  if (username) {
+    const userDisplay = document.getElementById("userName");
+    if (userDisplay) {
+      userDisplay.textContent = username;
+    }
+  } else {
+    window.location.href = "login.html";
+  }
+}
+
 
 // ───────────────────────────────────────────────
 // 🔁 INICIALIZACIÓN GENERAL
@@ -294,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
       grupo.classList.toggle("open");
     });
   });
-
+  checkLoggedUser();
   configurarCheckboxesYTabla();
   configurarLogout();
   configurarToggleColumnaIntermedia(); // ← Añádelo aquí
