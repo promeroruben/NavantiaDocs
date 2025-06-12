@@ -28,7 +28,11 @@ export function configurarExportExcel() {
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Documento");
 
-        XLSX.writeFile(workbook, "navantia-docs.xlsx");
+        // Usar el texto del h2 editable como nombre del archivo
+        const tituloDocumento = document.getElementById("tituloDocumento")?.textContent.trim() || "documento";
+        const nombreArchivo = `${tituloDocumento}.xlsx`;
+
+        XLSX.writeFile(workbook, nombreArchivo);
       });
     }
   });

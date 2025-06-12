@@ -166,6 +166,80 @@ function configurarCheckboxesYTabla() {
     });
 }
 
+// ─────────────────────────────────────────────────────────
+// 🟢 3. FUNCION PARA CONFIGURAR LOS FILTROS DE FECHAS
+// ─────────────────────────────────────────────────────────
+function configurarFiltrosFechas() {
+  // Función para limpiar las fechas
+  function limpiarFechas() {
+    document.getElementById('fechaDesde').value = '';
+    document.getElementById('fechaHasta').value = '';
+  }
+
+  // Event listener para el botón de limpiar fechas
+  const btnLimpiarFechas = document.getElementById('btnLimpiarFechas');
+  if (btnLimpiarFechas) {
+    btnLimpiarFechas.addEventListener('click', limpiarFechas);
+  }
+
+  // Validación para asegurar que la fecha "hasta" no sea anterior a la fecha "desde"
+  const fechaDesde = document.getElementById('fechaDesde');
+  const fechaHasta = document.getElementById('fechaHasta');
+
+  if (fechaDesde) {
+    fechaDesde.addEventListener('change', function() {
+      const valorFechaDesde = this.value;
+      
+      if (fechaHasta && fechaHasta.value && valorFechaDesde > fechaHasta.value) {
+        fechaHasta.value = valorFechaDesde;
+      }
+      
+      // Establecer la fecha mínima para "hasta"
+      if (fechaHasta) {
+        fechaHasta.min = valorFechaDesde;
+      }
+    });
+  }
+
+  if (fechaHasta) {
+    fechaHasta.addEventListener('change', function() {
+      const valorFechaHasta = this.value;
+      
+      if (fechaDesde && fechaDesde.value && valorFechaHasta < fechaDesde.value) {
+        fechaDesde.value = valorFechaHasta;
+      }
+      
+      // Establecer la fecha máxima para "desde"
+      if (fechaDesde) {
+        fechaDesde.max = valorFechaHasta;
+      }
+    });
+  }
+}
+
+// ───────────────────────────────────────────────
+// 👤 GESTIÓN DE USUARIO LOGUEADO
+// ───────────────────────────────────────────────
+function cargarDatosUsuario() {
+  // En una aplicación real, estos datos vendrían del sistema de autenticación
+  const userData = {
+    nombre: "Carlos Martínez",
+    iniciales: "CM"
+  };
+
+  // Actualizar la información del usuario en la interfaz
+  document.getElementById('userName').textContent = userData.nombre;
+  document.getElementById('userAvatar').textContent = userData.iniciales;
+}
+
+// Función para generar iniciales automáticamente
+function generarIniciales(nombreCompleto) {
+  return nombreCompleto
+    .split(' ')
+    .map(palabra => palabra.charAt(0).toUpperCase())
+    .slice(0, 2)
+    .join('');
+}
 
 // ───────────────────────────────────────────────
 // 🔄 DRAG AND DROP PARA COLUMNAS
@@ -288,6 +362,7 @@ function configurarLogout() {
 // 🔁 INICIALIZACIÓN GENERAL
 // ───────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
+  // Configurar los botones de toggle para las categorías
   document.querySelectorAll(".toggle-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const grupo = btn.closest(".grupo-campos");
@@ -295,7 +370,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Inicializar todas las funcionalidades
+  cargarDatosUsuario(); 
   configurarCheckboxesYTabla();
   configurarLogout();
-  configurarToggleColumnaIntermedia(); // ← Añádelo aquí
+  configurarToggleColumnaIntermedia();
+  configurarFiltrosFechas();
 });

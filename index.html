@@ -13,6 +13,11 @@
   <body>
     <header>
       <h1>Navantia Docs</h1>
+      <!-- Información del usuario logueado -->
+      <div class="user-info" id="userInfo">
+        <div class="user-avatar" id="userAvatar">CM</div>
+        <div class="user-name" id="userName">Carlos Martínez</div>
+      </div>
     </header>
 
   <!-- Barra superior de acciones -->
@@ -56,33 +61,28 @@
             <!-- Contenido de la columna intermedia -->
              <h3 style="margin-bottom: 1rem; color: #1f2937; font-size: 1.1rem;">Filtros de Datos</h3>
               <div class="filter-section">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Estado:</label>
-                <select style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
-                  <option>Todos</option>
-                  <option>Activo</option>
-                  <option>Inactivo</option>
-                  <option>Pendiente</option>
-                </select>
-              </div>
-
-              <div class="filter-section">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Categoría:</label>
-                <select style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
-                  <option>Todas</option>
-                  <option>Equipos</option>
-                  <option>Sistemas</option>
-                  <option>Componentes</option>
-                </select>
-              </div>
-
-              <div class="filter-section">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Fecha:</label>
-                <input type="date" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
-              </div>
-
-              <div class="filter-section">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Búsqueda:</label>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Orden:</label>
                 <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
+              </div>
+
+              <div class="filter-section">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Elemento PEP:</label>
+                <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
+              </div>
+
+              <div class="filter-section">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Rango de Fechas:</label>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <label style="font-size: 0.9rem; color: #6b7280; min-width: 50px;">Desde:</label>
+                    <input type="date" id="fechaDesde" style="flex: 1; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px;">
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <label style="font-size: 0.9rem; color: #6b7280; min-width: 50px;">Hasta:</label>
+                    <input type="date" id="fechaHasta" style="flex: 1; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px;">
+                  </div>
+                  <button onclick="limpiarFechas()" id="btnLimpiarFechas" style="padding: 0.3rem 0.5rem; background-color: #f3f4f6; color: #374151; border: 1px solid #d1d5db; border-radius: 4px; cursor: pointer; font-size: 0.8rem; align-self: flex-end;">Limpiar fechas</button>
+                </div>
               </div>
 
               <div class="filter-actions" style="display: flex; gap: 0.5rem; margin-top: 1rem;">

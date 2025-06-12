@@ -23,6 +23,7 @@ header {
   text-align: center;
   padding: 1rem;
   height: 70px;
+  position: relative;
 }
 
 .topbar {
@@ -325,4 +326,50 @@ th:hover .th-controls-float {
 #tablaObjetos th.drag-over {
   background-color: #dbeafe;
   border-left: 3px solid #3b82f6;
+}
+
+/* INFORMACIÓN DEL USUARIO */
+.user-info {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #374151;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  border: 2px solid #6b7280;
+}
+
+.user-name {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+  .user-info {
+    position: static;
+    transform: none;
+    margin-top: 0.5rem;
+  }
+  
+  header {
+    height: auto;
+    padding: 1rem;
+    text-align: left;
+  }
 }
