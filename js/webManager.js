@@ -2,6 +2,8 @@ import { configurarExportPDF } from './exportPDF.js';
 configurarExportPDF();
 import { configurarExportExcel } from './exportExcel.js';
 configurarExportExcel();
+import { initControlesAdmin } from './adminControls.js';
+
 
 
 // ───────────────────────────────────────────────
@@ -287,11 +289,14 @@ function configurarLogout() {
 
 function checkLoggedUser() {
   const username = localStorage.getItem("loggedUser");
+  const rol = localStorage.getItem("userRole");
 
   if (username) {
     const userDisplay = document.getElementById("userName");
-    if (userDisplay) {
-      userDisplay.textContent = username;
+    if (userDisplay) userDisplay.textContent = username;
+
+    if (rol === "admin") {
+      document.body.classList.add("admin"); // Para aplicar estilos o mostrar elementos
     }
   } else {
     window.location.href = "login.html";
@@ -312,5 +317,6 @@ document.addEventListener("DOMContentLoaded", () => {
   checkLoggedUser();
   configurarCheckboxesYTabla();
   configurarLogout();
-  configurarToggleColumnaIntermedia(); // ← Añádelo aquí
+  configurarToggleColumnaIntermedia();
+  initControlesAdmin();
 });

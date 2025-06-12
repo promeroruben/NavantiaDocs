@@ -24,7 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Usuario y contraseña correctos
-        localStorage.setItem("loggedUser", username);
+        localStorage.setItem("loggedUser", user.username);
+        localStorage.setItem("userRole", user.rol);
         window.location.href = "index.html";
       })
       .catch(error => {

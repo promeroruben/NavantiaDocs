@@ -5,6 +5,7 @@
     <title>Navantia Docs</title>
     <link rel="stylesheet" href="css/style.css">
     <script type="module" src="js/webManager.js" defer></script>
+    <script type="module" src="js/adminControls.js"></script>
     <script src="libs/html2pdf.bundle.min.js" defer></script>
     <!-- use xlsx.full.min.js from version 0.20.3 -->
     <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" defer></script>
@@ -20,8 +21,11 @@
       <div class="actions-right">
         <button id="btnPdf" class="action-btn">Descargar PDF</button>
         <button id="btnExcel" class="action-btn">Descargar Excel</button>
+        <div style="border-left:1px solid #ccc;height:40px"></div>
+        <button id="btnAdminPanel" class="action-btn admin-only">Gestionar usuarios</button>
         <button id="btnLogout" class="action-btn">Cerrar sesión</button>
         <p id="userName">USER</p>
+        <p id="rolState" class="admin-only">Admin</p>
       </div>
     </div>
 
@@ -114,6 +118,13 @@
 
       </main>
 
+    </div>
+
+    <div id="adminPanelOverlay" class="admin-overlay hidden">
+      <div class="admin-panel">
+        <h3>Panel de Administración</h3>
+        <p>Aquí puedes añadir opciones exclusivas para admins.</p>
+      </div>
     </div>
   </body>
 
