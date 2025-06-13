@@ -105,24 +105,10 @@ function configurarCheckboxesYTabla() {
             th.classList.add(`col-${id}`);
             th.setAttribute("data-col", id);
             th.style.position = "relative";
-            th.draggable = true; // ← Hacer la columna arrastrable
-
+            th.draggable = true;
             th.textContent = nombreCampo;
 
-            const controls = document.createElement("span");
-            controls.classList.add("th-controls-float");
-
-            const btnLeft = document.createElement("button");
-            btnLeft.classList.add("th-move-left");
-            btnLeft.textContent = "←";
-
-            const btnRight = document.createElement("button");
-            btnRight.classList.add("th-move-right");
-            btnRight.textContent = "→";
-
-            controls.appendChild(btnLeft);
-            controls.appendChild(btnRight);
-            th.appendChild(controls);
+            // Agregar a la cabecera
             cabeceraTabla.appendChild(th);
 
             // ← EVENTOS DRAG AND DROP
@@ -133,6 +119,7 @@ function configurarCheckboxesYTabla() {
             th.addEventListener('dragenter', handleDragEnter);
             th.addEventListener('dragleave', handleDragLeave);
 
+            // Crear celdas para cada fila
             cuerpoTabla.querySelectorAll("tr").forEach((fila, index) => {
               const td = document.createElement("td");
               td.classList.add(`col-${id}`);
@@ -141,9 +128,6 @@ function configurarCheckboxesYTabla() {
               td.textContent = datosGlobales[index]?.[nombreCampo] ?? "";
               fila.appendChild(td);
             });
-
-            btnLeft.addEventListener("click", () => moveColumn(id, -1));
-            btnRight.addEventListener("click", () => moveColumn(id, 1));
           }
 
           function eliminarColumnaTabla() {
@@ -264,11 +248,15 @@ function handleDragOver(e) {
 function handleDragEnter(e) {
   if (this !== draggedColumn) {
     this.classList.add('drag-over');
+    // Highlight toda la columna
+    highlightColumn(this.dataset.col, true);
   }
 }
 
 function handleDragLeave(e) {
   this.classList.remove('drag-over');
+  // Remover highlight de toda la columna
+  highlightColumn(this.dataset.col, false);
 }
 
 function handleDrop(e) {
@@ -298,20 +286,34 @@ function handleDrop(e) {
   }
 
   this.classList.remove('drag-over');
+  // Remover highlight de toda la columna
+  highlightColumn(this.dataset.col, false);
   return false;
 }
 
 function handleDragEnd(e) {
   this.classList.remove('dragging');
   
-  // Limpiar todas las clases de drag-over
+  // Limpiar todas las clases de drag-over y highlights
   document.querySelectorAll('#tablaObjetos th').forEach(th => {
     th.classList.remove('drag-over');
+    highlightColumn(th.dataset.col, false);
   });
   
   draggedColumn = null;
 }
 
+// Función para highlighting de columnas completas
+function highlightColumn(colId, highlight) {
+  const elements = document.querySelectorAll(`[data-col="${colId}"]`);
+  elements.forEach(element => {
+    if (highlight) {
+      element.classList.add('column-highlight');
+    } else {
+      element.classList.remove('column-highlight');
+    }
+  });
+}
 
 // ───────────────────────────────────────────────
 // 🔵 TOGGLE COLUMNA INTERMEDIA
