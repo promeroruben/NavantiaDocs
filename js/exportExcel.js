@@ -25,12 +25,22 @@ export function configurarExportExcel() {
         });
 
         const worksheet = XLSX.utils.aoa_to_sheet(data);
+
+        // 🔹 Ajuste automático de ancho de columnas
+        const columnWidths = data[2].map((_, colIndex) => {
+          // Encuentra la celda más larga de cada columna
+          const maxLength = data.map(row => (row[colIndex]?.length || 0)).reduce((a, b) => Math.max(a, b), 10);
+          return { wch: maxLength + 2 }; // +2 para un poco de espacio extra
+        });
+        worksheet['!cols'] = columnWidths;
+
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Documento");
 
-        // Usar el texto del h2 editable como nombre del archivo
+        // 🔹 Usar el texto del h2 editable como nombre del archivo
         const tituloDocumento = document.getElementById("tituloDocumento")?.textContent.trim() || "documento";
-        const nombreArchivo = `${tituloDocumento}.xlsx`;
+        const tituloLimpio = tituloDocumento.replace(/[\\/:*?"<>|]/g, "_"); // Elimina caracteres inválidos
+        const nombreArchivo = `${tituloLimpio}.xlsx`;
 
         XLSX.writeFile(workbook, nombreArchivo);
       });
