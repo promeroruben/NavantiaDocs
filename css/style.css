@@ -135,7 +135,7 @@ header {
 
 /* columna intermedia */
 .right-table-container {
-  width: 250px;
+  width: 260px;
   min-width: 20px;
   transition: width 0.3s ease;
   position: absolute;
@@ -173,6 +173,14 @@ header {
   opacity: 0;
   pointer-events: none;
   padding: 0;
+}
+
+.form-container.date{
+  display: flex;
+  gap: 4%;
+}
+.form-container.date div{
+  width: 48%;
 }
 
 /* Botón fijo al borde derecho del panel */
