@@ -152,56 +152,56 @@ function configurarCheckboxesYTabla() {
     });
 }
 
-// ─────────────────────────────────────────────────────────
-// 🟢 3. FUNCION PARA CONFIGURAR LOS FILTROS DE FECHAS
-// ─────────────────────────────────────────────────────────
-function configurarFiltrosFechas() {
-  // Función para limpiar las fechas
-  function limpiarFechas() {
-    document.getElementById('fechaDesde').value = '';
-    document.getElementById('fechaHasta').value = '';
-  }
+// // ─────────────────────────────────────────────────────────
+// // 🟢 3. FUNCION PARA CONFIGURAR LOS FILTROS DE FECHAS
+// // ─────────────────────────────────────────────────────────
+// function configurarFiltrosFechas() {
+//   // Función para limpiar las fechas
+//   function limpiarFechas() {
+//     document.getElementById('fechaDesde').value = '';
+//     document.getElementById('fechaHasta').value = '';
+//   }
 
-  // Event listener para el botón de limpiar fechas
-  const btnLimpiarFechas = document.getElementById('btnLimpiarFechas');
-  if (btnLimpiarFechas) {
-    btnLimpiarFechas.addEventListener('click', limpiarFechas);
-  }
+//   // Event listener para el botón de limpiar fechas
+//   const btnLimpiarFechas = document.getElementById('btnLimpiarFechas');
+//   if (btnLimpiarFechas) {
+//     btnLimpiarFechas.addEventListener('click', limpiarFechas);
+//   }
 
-  // Validación para asegurar que la fecha "hasta" no sea anterior a la fecha "desde"
-  const fechaDesde = document.getElementById('fechaDesde');
-  const fechaHasta = document.getElementById('fechaHasta');
+//   // Validación para asegurar que la fecha "hasta" no sea anterior a la fecha "desde"
+//   const fechaDesde = document.getElementById('fechaDesde');
+//   const fechaHasta = document.getElementById('fechaHasta');
 
-  if (fechaDesde) {
-    fechaDesde.addEventListener('change', function() {
-      const valorFechaDesde = this.value;
+//   if (fechaDesde) {
+//     fechaDesde.addEventListener('change', function() {
+//       const valorFechaDesde = this.value;
       
-      if (fechaHasta && fechaHasta.value && valorFechaDesde > fechaHasta.value) {
-        fechaHasta.value = valorFechaDesde;
-      }
+//       if (fechaHasta && fechaHasta.value && valorFechaDesde > fechaHasta.value) {
+//         fechaHasta.value = valorFechaDesde;
+//       }
       
-      // Establecer la fecha mínima para "hasta"
-      if (fechaHasta) {
-        fechaHasta.min = valorFechaDesde;
-      }
-    });
-  }
+//       // Establecer la fecha mínima para "hasta"
+//       if (fechaHasta) {
+//         fechaHasta.min = valorFechaDesde;
+//       }
+//     });
+//   }
 
-  if (fechaHasta) {
-    fechaHasta.addEventListener('change', function() {
-      const valorFechaHasta = this.value;
+//   if (fechaHasta) {
+//     fechaHasta.addEventListener('change', function() {
+//       const valorFechaHasta = this.value;
       
-      if (fechaDesde && fechaDesde.value && valorFechaHasta < fechaDesde.value) {
-        fechaDesde.value = valorFechaHasta;
-      }
+//       if (fechaDesde && fechaDesde.value && valorFechaHasta < fechaDesde.value) {
+//         fechaDesde.value = valorFechaHasta;
+//       }
       
-      // Establecer la fecha máxima para "desde"
-      if (fechaDesde) {
-        fechaDesde.max = valorFechaHasta;
-      }
-    });
-  }
-}
+//       // Establecer la fecha máxima para "desde"
+//       if (fechaDesde) {
+//         fechaDesde.max = valorFechaHasta;
+//       }
+//     });
+//   }
+// }
 
 // ───────────────────────────────────────────────
 // 👤 GESTIÓN DE USUARIO LOGUEADO
