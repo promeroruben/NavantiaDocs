@@ -5,10 +5,11 @@
     <title>Navantia Docs</title>
     <link rel="stylesheet" href="css/style.css">
     <script type="module" src="js/webManager.js" defer></script>
+    <script type="module" src="js/adminControls.js"></script>
     <script src="libs/html2pdf.bundle.min.js" defer></script>
     <!-- use xlsx.full.min.js from version 0.20.3 -->
     <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" defer></script>
-  </head>
+</head>
 
   <body>
     <header>
@@ -25,7 +26,11 @@
       <div class="actions-right">
         <button id="btnPdf" class="action-btn">Descargar PDF</button>
         <button id="btnExcel" class="action-btn">Descargar Excel</button>
+        <div style="border-left:1px solid #ccc;height:40px"></div>
+        <button id="btnAdminPanel" class="action-btn admin-only">Gestionar usuarios</button>
         <button id="btnLogout" class="action-btn">Cerrar sesión</button>
+        <p id="userName">USER</p>
+        <p id="rolState" class="admin-only">Admin</p>
       </div>
     </div>
 
@@ -60,6 +65,7 @@
           <div class="right-table-content">
             <!-- Contenido de la columna intermedia -->
              <h3 style="margin-bottom: 1rem; color: #1f2937; font-size: 1.1rem;">Filtros de Datos</h3>
+             <!-- 
               <div class="filter-section">
                 <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Orden:</label>
                 <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
@@ -69,20 +75,33 @@
                 <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Elemento PEP:</label>
                 <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
               </div>
+-->
+              
+
+              <div class="form-container date">
+                <div class="filter-section">
+                  <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Desde</label>
+                  <input type="date" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
+                </div>
+                <div class="filter-section">
+                  <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Hasta</label>
+                  <input type="date" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
+                </div>
+              </div>
+
+              <hr style=" margin-bottom: 1em; background-color: rgb(255, 255, 255);">
 
               <div class="filter-section">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Rango de Fechas:</label>
-                <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
-                  <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <label style="font-size: 0.9rem; color: #6b7280; min-width: 50px;">Desde:</label>
-                    <input type="date" id="fechaDesde" style="flex: 1; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px;">
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <label style="font-size: 0.9rem; color: #6b7280; min-width: 50px;">Hasta:</label>
-                    <input type="date" id="fechaHasta" style="flex: 1; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px;">
-                  </div>
-                  <button onclick="limpiarFechas()" id="btnLimpiarFechas" style="padding: 0.3rem 0.5rem; background-color: #f3f4f6; color: #374151; border: 1px solid #d1d5db; border-radius: 4px; cursor: pointer; font-size: 0.8rem; align-self: flex-end;">Limpiar fechas</button>
-                </div>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Orden:</label>
+                <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
+              </div>
+              <div class="filter-section">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Elemento Pep:</label>
+                <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
+              </div>
+              <div class="filter-section">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Descripción de Conjunto:</label>
+                <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
               </div>
 
               <div class="filter-actions" style="display: flex; gap: 0.5rem; margin-top: 1rem;">
@@ -113,6 +132,13 @@
 
       </main>
 
+    </div>
+
+    <div id="adminPanelOverlay" class="admin-overlay hidden">
+      <div class="admin-panel">
+        <h3>Panel de Administración</h3>
+        <p>Aquí puedes añadir opciones exclusivas para admins.</p>
+      </div>
     </div>
   </body>
 

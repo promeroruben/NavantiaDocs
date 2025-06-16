@@ -17,6 +17,13 @@ body {
   flex-direction: column;
 }
 
+.admin-only {
+  display: none;
+}
+body.admin .admin-only {
+  display: block;
+}
+
 header {
   background-color: #1f2937;
   color: white;
@@ -55,6 +62,7 @@ header {
 .actions-right {
   display: flex;
   gap: 0.5rem;
+  align-items: center;
 }
 
 .action-btn {
@@ -69,6 +77,15 @@ header {
 
 .action-btn:hover {
   background-color: #374151;
+}
+
+#userName{
+  color:grey;
+}
+
+#rolState{
+  color:#3b82f6;
+  font-size: small;
 }
 
 /* SIDEBARS */
@@ -121,7 +138,7 @@ header {
 
 /* columna intermedia */
 .right-table-container {
-  width: 250px;
+  width: 260px;
   min-width: 20px;
   transition: width 0.3s ease;
   position: absolute;
@@ -158,6 +175,14 @@ header {
   opacity: 0;
   pointer-events: none;
   padding: 0;
+}
+
+.form-container.date{
+  display: flex;
+  gap: 4%;
+}
+.form-container.date div{
+  width: 48%;
 }
 
 /* Botón fijo al borde derecho del panel */
@@ -458,4 +483,30 @@ header {
   .content {
     padding: 1rem;
   }
+}
+
+.admin-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.admin-panel {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 80%;
+}
+
+.hidden {
+  display: none;
 }
