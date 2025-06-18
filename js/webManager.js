@@ -152,44 +152,81 @@ function configurarCheckboxesYTabla() {
     });
 }
 
+// // ─────────────────────────────────────────────────────────
+// // 🟢 3. FUNCION PARA CONFIGURAR LOS FILTROS DE FECHAS
+// // ─────────────────────────────────────────────────────────
+// function configurarFiltrosFechas() {
+//   // Función para limpiar las fechas
+//   function limpiarFechas() {
+//     document.getElementById('fechaDesde').value = '';
+//     document.getElementById('fechaHasta').value = '';
+//   }
+
+//   // Event listener para el botón de limpiar fechas
+//   const btnLimpiarFechas = document.getElementById('btnLimpiarFechas');
+//   if (btnLimpiarFechas) {
+//     btnLimpiarFechas.addEventListener('click', limpiarFechas);
+//   }
+
+//   // Validación para asegurar que la fecha "hasta" no sea anterior a la fecha "desde"
+//   const fechaDesde = document.getElementById('fechaDesde');
+//   const fechaHasta = document.getElementById('fechaHasta');
+
+//   if (fechaDesde) {
+//     fechaDesde.addEventListener('change', function() {
+//       const valorFechaDesde = this.value;
+      
+//       if (fechaHasta && fechaHasta.value && valorFechaDesde > fechaHasta.value) {
+//         fechaHasta.value = valorFechaDesde;
+//       }
+      
+//       // Establecer la fecha mínima para "hasta"
+//       if (fechaHasta) {
+//         fechaHasta.min = valorFechaDesde;
+//       }
+//     });
+//   }
+
+//   if (fechaHasta) {
+//     fechaHasta.addEventListener('change', function() {
+//       const valorFechaHasta = this.value;
+      
+//       if (fechaDesde && fechaDesde.value && valorFechaHasta < fechaDesde.value) {
+//         fechaDesde.value = valorFechaHasta;
+//       }
+      
+//       // Establecer la fecha máxima para "desde"
+//       if (fechaDesde) {
+//         fechaDesde.max = valorFechaHasta;
+//       }
+//     });
+//   }
+// }
+
 // ───────────────────────────────────────────────
-// 👤 GESTIÓN DE USUARIO LOGUEADO - ACTUALIZADA
+// 👤 GESTIÓN DE USUARIO LOGUEADO
 // ───────────────────────────────────────────────
 function cargarDatosUsuario() {
-  // Obtener datos del usuario desde localStorage
   const username = localStorage.getItem("loggedUser");
-  const userRole = localStorage.getItem("userRole");
+  const rol = localStorage.getItem("userRole");
 
-  if (username) {
-    // Generar iniciales automáticamente del nombre de usuario
-    const iniciales = generarIniciales(username);
-    
-    // Actualizar la información del usuario en el HEADER
-    const headerUserName = document.querySelector('.user-info #userName');
-    const headerUserAvatar = document.querySelector('.user-info #userAvatar');
-    
-    if (headerUserName) {
-      // Mostrar nombre y rol en el header
-      headerUserName.textContent = userRole ? `${username} (${userRole})` : username;
-    }
-    
-    if (headerUserAvatar) {
-      headerUserAvatar.textContent = iniciales;
-    }
-    
-    // Actualizar también el elemento userName en la topbar si existe
-    const topbarUserName = document.querySelector('.topbar #userName');
-    if (topbarUserName) {
-      topbarUserName.textContent = username;
-    }
-    
-    // Mostrar el rol del usuario en la topbar si existe
-    const rolStateElement = document.getElementById('rolState');
-    if (rolStateElement && userRole) {
-      rolStateElement.textContent = `(${userRole})`;
-    }
+  if (!username || !rol) {
+    window.location.href = "login.html";
+    return;
   }
+
+  // Mostrar nombre y rol
+  const userNameElement = document.getElementById('userName');
+  const userRoleElement = document.getElementById('userRole'); // <- Asegúrate de tener este en el HTML
+
+  if (userNameElement) userNameElement.textContent = username;
+  if (userRoleElement) userRoleElement.textContent = rol.charAt(0).toUpperCase() + rol.slice(1);
+
+  // También mostrar iniciales en avatar
+  const userAvatar = document.getElementById('userAvatar');
+  if (userAvatar) userAvatar.textContent = generarIniciales(username);
 }
+
 
 // Función para generar iniciales automáticamente
 function generarIniciales(nombreCompleto) {
@@ -331,7 +368,6 @@ function configurarLogout() {
   if (btnLogout) {
     btnLogout.addEventListener("click", () => {
       localStorage.removeItem("loggedUser");
-      localStorage.removeItem("userRole");
       window.location.href = "login.html";
     });
   }
