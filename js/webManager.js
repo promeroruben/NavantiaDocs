@@ -152,56 +152,6 @@ function configurarCheckboxesYTabla() {
     });
 }
 
-// // ─────────────────────────────────────────────────────────
-// // 🟢 3. FUNCION PARA CONFIGURAR LOS FILTROS DE FECHAS
-// // ─────────────────────────────────────────────────────────
-// function configurarFiltrosFechas() {
-//   // Función para limpiar las fechas
-//   function limpiarFechas() {
-//     document.getElementById('fechaDesde').value = '';
-//     document.getElementById('fechaHasta').value = '';
-//   }
-
-//   // Event listener para el botón de limpiar fechas
-//   const btnLimpiarFechas = document.getElementById('btnLimpiarFechas');
-//   if (btnLimpiarFechas) {
-//     btnLimpiarFechas.addEventListener('click', limpiarFechas);
-//   }
-
-//   // Validación para asegurar que la fecha "hasta" no sea anterior a la fecha "desde"
-//   const fechaDesde = document.getElementById('fechaDesde');
-//   const fechaHasta = document.getElementById('fechaHasta');
-
-//   if (fechaDesde) {
-//     fechaDesde.addEventListener('change', function() {
-//       const valorFechaDesde = this.value;
-      
-//       if (fechaHasta && fechaHasta.value && valorFechaDesde > fechaHasta.value) {
-//         fechaHasta.value = valorFechaDesde;
-//       }
-      
-//       // Establecer la fecha mínima para "hasta"
-//       if (fechaHasta) {
-//         fechaHasta.min = valorFechaDesde;
-//       }
-//     });
-//   }
-
-//   if (fechaHasta) {
-//     fechaHasta.addEventListener('change', function() {
-//       const valorFechaHasta = this.value;
-      
-//       if (fechaDesde && fechaDesde.value && valorFechaHasta < fechaDesde.value) {
-//         fechaDesde.value = valorFechaHasta;
-//       }
-      
-//       // Establecer la fecha máxima para "desde"
-//       if (fechaDesde) {
-//         fechaDesde.max = valorFechaHasta;
-//       }
-//     });
-//   }
-// }
 
 // ───────────────────────────────────────────────
 // 👤 GESTIÓN DE USUARIO LOGUEADO
@@ -391,6 +341,98 @@ function checkLoggedUser() {
 
 
 // ───────────────────────────────────────────────
+// 🔧 FILTROS DINÁMICOS
+// ───────────────────────────────────────────────
+function configurarFiltrosDinamicos() {
+  const maxFilters = 15;
+  
+  // Contadores para cada tipo de filtro
+  const filterCounts = {
+    orden: 1,
+    pep: 1
+  };
+
+  function addFilter(type) {
+    if (filterCounts[type] >= maxFilters) return;
+    
+    const container = document.querySelector(`#${type}Filters .filter-inputs`);
+    const newWrapper = document.createElement('div');
+    newWrapper.className = 'filter-input-wrapper';
+    newWrapper.innerHTML = `
+      <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 0.5rem;">
+    `;
+    
+    container.appendChild(newWrapper);
+    filterCounts[type]++;
+    
+    updateRemoveButtonState(type);
+  }
+
+  function removeFilter(type) {
+    if (filterCounts[type] <= 1) return;
+    
+    const container = document.querySelector(`#${type}Filters .filter-inputs`);
+    const lastWrapper = container.lastElementChild;
+    
+    if (lastWrapper) {
+      lastWrapper.remove();
+      filterCounts[type]--;
+    }
+    
+    updateRemoveButtonState(type);
+  }
+
+  function updateRemoveButtonState(type) {
+    const removeBtn = document.querySelector(`[data-type="${type}"].remove-filter-btn`);
+    if (removeBtn) {
+      removeBtn.disabled = filterCounts[type] <= 1;
+    }
+  }
+
+  // Event listeners para botones de añadir
+  document.querySelectorAll('.add-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.dataset.type;
+      addFilter(type);
+    });
+  });
+
+  // Event listeners para botones de quitar
+  document.querySelectorAll('.remove-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.dataset.type;
+      removeFilter(type);
+    });
+    
+    // Estado inicial
+    updateRemoveButtonState(btn.dataset.type);
+  });
+}
+
+
+// ───────────────────────────────────────────────
+// 📅 RESTRICCIÓN DE FECHAS (SIN ERRORES, SOLO BLOQUEO)
+// ───────────────────────────────────────────────
+function configurarRestriccionFechas() {
+  const fechaDesde = document.getElementById('fechaDesde');
+  const fechaHasta = document.getElementById('fechaHasta');
+  
+  if (!fechaDesde || !fechaHasta) return;
+  
+  function validar() {
+    if (fechaDesde.value) {
+      fechaHasta.min = fechaDesde.value;
+    }
+    if (fechaHasta.value) {
+      fechaDesde.max = fechaHasta.value;
+    }
+  }
+  
+  fechaDesde.addEventListener('change', validar);
+  fechaHasta.addEventListener('change', validar);
+}
+
+// ───────────────────────────────────────────────
 // 🔁 INICIALIZACIÓN GENERAL
 // ───────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
@@ -407,5 +449,7 @@ document.addEventListener("DOMContentLoaded", () => {
   configurarCheckboxesYTabla();
   configurarLogout();
   configurarToggleColumnaIntermedia();
+  configurarFiltrosDinamicos();
   initControlesAdmin();
+  configurarRestriccionFechas();
 });

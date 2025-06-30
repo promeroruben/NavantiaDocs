@@ -64,47 +64,54 @@
           <div class="right-table-content">
             <!-- Contenido de la columna intermedia -->
              <h3 style="margin-bottom: 1rem; color: #1f2937; font-size: 1.1rem;">Filtros de Datos</h3>
-             <!-- 
-              <div class="filter-section">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Orden:</label>
-                <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
-              </div>
 
-              <div class="filter-section">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Elemento PEP:</label>
-                <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
-              </div>
--->
-              
-
-              <div class="form-container date">
-                <div class="filter-section">
-                  <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Desde</label>
-                  <input type="date" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
+                <div class="form-container date">
+                  <div class="filter-section">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Desde</label>
+                    <input id="fechaDesde" type="date" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
+                  </div>
+                  <div class="filter-section">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Hasta</label>
+                    <input id="fechaHasta" type="date" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
+                  </div>
                 </div>
-                <div class="filter-section">
-                  <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Hasta</label>
-                  <input type="date" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
-                </div>
-              </div>
 
+                <hr style=" margin-bottom: 1em; background-color: rgb(255, 255, 255);">
+
+                <div class="filters-scroll-container">
+                  <div id="ordenFilters" class="dynamic-filter-group">
+                    <div class="filter-header">
+                      <label style="font-weight: bold; color: #374151;">Orden:</label>
+                      <div class="filter-controls">
+                        <button class="add-filter-btn" data-type="orden">+</button>
+                        <button class="remove-filter-btn" data-type="orden">-</button>
+                      </div>
+                    </div>
+                    <div class="filter-inputs">
+                      <div class="filter-input-wrapper">
+                        <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 0.5rem;">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="pepFilters" class="dynamic-filter-group">
+                    <div class="filter-header">
+                      <label style="font-weight: bold; color: #374151;">Elemento Pep:</label>
+                      <div class="filter-controls">
+                        <button class="add-filter-btn" data-type="pep">+</button>
+                        <button class="remove-filter-btn" data-type="pep">-</button>
+                      </div>
+                    </div>
+                    <div class="filter-inputs">
+                      <div class="filter-input-wrapper">
+                        <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 0.5rem;">
+                      </div>
+                    </div>
+                  </div>
+                </div>
               <hr style=" margin-bottom: 1em; background-color: rgb(255, 255, 255);">
 
-              <div class="filter-section">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Orden:</label>
-                <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
-              </div>
-              <div class="filter-section">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Elemento Pep:</label>
-                <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
-              </div>
-              <div class="filter-section">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #374151;">Descripción de Conjunto:</label>
-                <input type="text" placeholder="Buscar..." style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 1rem;">
-              </div>
-
               <div class="filter-actions" style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                <button style="flex: 1; padding: 0.5rem; background-color: #1f2937; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">Aplicar</button>
                 <button style="flex: 1; padding: 0.5rem; background-color: #6b7280; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">Limpiar</button>
               </div>
           </div>

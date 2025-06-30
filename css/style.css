@@ -510,3 +510,113 @@ header {
 .hidden {
   display: none;
 }
+
+/* FILTROS DINÁMICOS - SCROLL SIN LÍMITE */
+.filters-scroll-container {
+  overflow-y: auto;
+  padding-right: 5px;
+  /* Mantener el scroll invisible pero funcional */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  
+  /* Permitir que el contenedor crezca dinámicamente */
+  flex-grow: 1;
+  /* Asegurar que el contenedor padre también permita crecimiento */
+  height: auto;
+  min-height: 0;
+}
+
+.filters-scroll-container::-webkit-scrollbar {
+  display: none; 
+}
+
+/* Asegurar que el contenedor padre también permita crecimiento dinámico */
+.right-table-content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  transition: opacity 0.3s ease;
+  
+  /* Permitir que el contenido crezca libremente */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Opcional: Si quieres mantener un límite pero más alto */
+.filters-scroll-container.with-limit {
+  max-height: 60vh; 
+}
+
+.dynamic-filter-group {
+  margin-bottom: 1rem;
+  /* Asegurar que cada grupo de filtros puede crecer */
+  flex-shrink: 0;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.add-filter-btn, .remove-filter-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.add-filter-btn {
+  background-color: #10b981;
+  color: white;
+}
+
+.add-filter-btn:hover {
+  background-color: #059669;
+  transform: scale(1.1);
+}
+
+.remove-filter-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+.remove-filter-btn:hover {
+  background-color: #dc2626;
+  transform: scale(1.1);
+}
+
+.remove-filter-btn:disabled {
+  background-color: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.filter-input-wrapper {
+  transition: all 0.2s ease;
+  /* Asegurar que cada input wrapper no se encoja */
+  flex-shrink: 0;
+}
+
+.filter-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* Permitir que el contenedor de inputs crezca */
+  flex-grow: 1;
+}
