@@ -347,7 +347,7 @@ function configurarFiltrosDinamicos() {
   const maxFilters = 15;
   
   // Contadores para cada tipo de filtro
-  const filterCounts = {
+ window.filterCounts = {
     orden: 1,
     pep: 1
   };
@@ -411,7 +411,74 @@ function configurarFiltrosDinamicos() {
 
 
 // ───────────────────────────────────────────────
-// 📅 RESTRICCIÓN DE FECHAS (SIN ERRORES, SOLO BLOQUEO)
+//  BOTON LIMPIAR
+// ───────────────────────────────────────────────
+
+function configurarLimpiarFiltros() {
+  const btnLimpiar = document.querySelector('.filter-actions button');
+  
+  if (btnLimpiar) {
+    btnLimpiar.addEventListener('click', () => {
+      // Limpiar fechas
+      const fechaDesde = document.getElementById('fechaDesde');
+      const fechaHasta = document.getElementById('fechaHasta');
+      
+      if (fechaDesde) {
+        fechaDesde.value = '';
+        fechaDesde.removeAttribute('max');
+      }
+      if (fechaHasta) {
+        fechaHasta.value = '';
+        fechaHasta.removeAttribute('min');
+      }
+      
+      // Limpiar todos los inputs de filtros dinámicos
+      document.querySelectorAll('.filter-inputs input[type="text"]').forEach(input => {
+        input.value = '';
+      });
+      
+      // Resetear filtros dinámicos a su estado inicial
+      resetearFiltrosDinamicos();
+      
+      console.log('Filtros limpiados');
+    });
+  }
+}
+
+function resetearFiltrosDinamicos() {
+  const filterTypes = ['orden', 'pep'];
+  
+  filterTypes.forEach(type => {
+    const container = document.querySelector(`#${type}Filters .filter-inputs`);
+    if (container) {
+      // Eliminar todos los wrappers excepto el primero
+      const wrappers = container.querySelectorAll('.filter-input-wrapper');
+      for (let i = 1; i < wrappers.length; i++) {
+        wrappers[i].remove();
+      }
+      
+      // Limpiar el primer input
+      const firstInput = container.querySelector('input[type="text"]');
+      if (firstInput) {
+        firstInput.value = '';
+      }
+    }
+    
+    // Resetear contador
+    if (window.filterCounts) {
+      window.filterCounts[type] = 1;
+    }
+    
+    // Actualizar estado del botón de remover
+    const removeBtn = document.querySelector(`[data-type="${type}"].remove-filter-btn`);
+    if (removeBtn) {
+      removeBtn.disabled = true;
+    }
+  });
+}
+
+// ───────────────────────────────────────────────
+// 📅 RESTRICCIÓN DE FECHAS
 // ───────────────────────────────────────────────
 function configurarRestriccionFechas() {
   const fechaDesde = document.getElementById('fechaDesde');
@@ -452,4 +519,5 @@ document.addEventListener("DOMContentLoaded", () => {
   configurarFiltrosDinamicos();
   initControlesAdmin();
   configurarRestriccionFechas();
+  configurarLimpiarFiltros();
 });
