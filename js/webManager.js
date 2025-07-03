@@ -62,6 +62,7 @@ function configurarCheckboxesYTabla() {
     .then(response => response.json())
     .then(data => {
       const datosGlobales = data;
+      configurarAplicarFiltros(datosGlobales);
       const campos = new Set();
       const campoNombreMap = {};
 
@@ -441,6 +442,11 @@ function configurarLimpiarFiltros() {
       resetearFiltrosDinamicos();
       
       console.log('Filtros limpiados');
+      // Mostrar todas las filas al limpiar
+      document.querySelectorAll('#cuerpoTabla tr').forEach(fila => {
+        fila.style.display = '';
+      });
+
     });
   }
 }
@@ -498,6 +504,63 @@ function configurarRestriccionFechas() {
   fechaDesde.addEventListener('change', validar);
   fechaHasta.addEventListener('change', validar);
 }
+
+
+// ───────────────────────────────────────────────
+// FILTRO 
+// ───────────────────────────────────────────────
+
+
+function configurarAplicarFiltros(datosGlobales) {
+  const btnAplicar = document.getElementById('btnAplicarFiltros');
+  if (!btnAplicar) return;
+
+  btnAplicar.addEventListener('click', () => {
+  const ordenes = Array.from(document.querySelectorAll('#ordenFilters input'))
+    .map(input => input.value.trim().toLowerCase())
+    .filter(val => val !== '');
+
+  const peps = Array.from(document.querySelectorAll('#pepFilters input'))
+    .map(input => input.value.trim().toLowerCase())
+    .filter(val => val !== '');
+
+  const fechaDesde = document.getElementById('fechaDesde')?.value;
+  const fechaHasta = document.getElementById('fechaHasta')?.value;
+
+  document.querySelectorAll('#cuerpoTabla tr').forEach((fila, index) => {
+    const dato = datosGlobales[index];
+
+    const matchOrden =
+      ordenes.length === 0 ||
+      ordenes.some(val => (dato["Orden"] || '').toLowerCase().includes(val));
+
+    const matchPep =
+      peps.length === 0 ||
+      peps.some(val => (dato["Elemento PEP"] || '').toLowerCase().includes(val));
+
+        let fechaItem = null;
+    if (dato["Fecha inic."]) {
+      const partes = dato["Fecha inic."].split("-");
+      if (partes.length === 3) {
+        const [a, m, d] = partes;
+        fechaItem = new Date(a, m - 1, d);
+      }
+    }
+
+    const matchFecha =
+      (!fechaDesde || (fechaItem && fechaItem >= new Date(fechaDesde))) &&
+      (!fechaHasta || (fechaItem && fechaItem <= new Date(fechaHasta)));
+
+    if (matchOrden && matchPep && matchFecha) {
+      fila.style.display = '';
+    } else {
+      fila.style.display = 'none';
+    }
+  });
+});
+}
+
+
 
 // ───────────────────────────────────────────────
 // 🔁 INICIALIZACIÓN GENERAL
